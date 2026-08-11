@@ -1,0 +1,15 @@
+# .gitattributes 是 Git 的一个配置文件，用来告诉 Git：不同类型的文件在提交、检出、换行符、编码、diff 等方面应该怎么处理。
+# 主要解决一个问题：Windows 和 Ubuntu 之间同步代码时，避免换行符混乱。
+
+*.py text eol=lf
+*.launch.py text eol=lf
+*.xacro text eol=lf
+*.urdf text eol=lf
+*.rviz text eol=lf
+*.xml text eol=lf
+*.msg text eol=lf
+*.srv text eol=lf
+CMakeLists.txt text eol=lf
+*.cmake text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
