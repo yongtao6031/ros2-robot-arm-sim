@@ -1,43 +1,22 @@
-# 基于 ROS2 的采摘机械臂控制仿真
+# 基于 ROS2 的仿真机械臂控制系统
 
-这是一个基于 **ROS2 Jazzy** 的采摘机械臂控制仿真工作空间，用于在没有真实机械臂、相机和点云设备的情况下，复现并理解机械臂控制链路。
-
-项目不是完整迁移本科 ROS1 毕设中的摄像头、点云和真实硬件控制，而是聚焦一个更清晰、更适合学习和展示的最小闭环：
+这是一个基于 **ROS2 Jazzy** 的机械臂控制可视化项目，用于在无实体硬件条件下验证一条最小控制链路：
 
 ```text
-目标坐标输入 -> mock 执行节点 -> 关节状态转换 -> URDF 机械臂模型 -> RViz2 可视化
+键盘目标输入 -> 仿真执行节点 -> 关节状态发布 -> URDF 机械臂模型 -> RViz2 可视化
 ```
+
+项目当前聚焦 ROS2 基础开发、节点通信、自定义接口、URDF/xacro 建模、`/joint_states` 发布、TF 发布与 RViz2 可视化验证。它不是物理级仿真项目，暂不包含 Gazebo、MoveIt2、ros2_control 或真实设备控制。
 
 ## 运行效果
 
-RViz2 机械臂控制仿真：
+RViz2 机械臂可视化：
 
-![RViz2 机械臂仿真](doc/image-sim.png)
+![RViz2 机械臂可视化](doc/image-sim.png)
 
 ROS2 通信图：
 
 ![ROS2 通信图](doc/image-rqt-graph.png)
-
-TF/RobotModel 可视化：
-
-![TF 可视化](doc/image-tf.png)
-
-## 项目定位
-
-这个仓库主要用于：
-
-- 体验 ROS1 到 ROS2 的开发模式变化。
-- 熟悉 ROS2 工作空间、功能包、接口、节点、launch 和 RViz2。
-- 将原 ROS1 机械臂项目中的控制思想迁移为 ROS2 最小可运行闭环。
-- 形成一个可编译、可运行、可展示的机器人软件学习项目。
-
-当前不做：
-
-- Orbbec 相机驱动迁移。
-- PointCloud2/Open3D 点云识别。
-- Gazebo 物理仿真。
-- MoveIt2 运动规划。
-- 真实串口机械臂控制。
 
 ## 功能包结构
 
@@ -45,18 +24,16 @@ TF/RobotModel 可视化：
 src/
   armpy_interfaces/     # 自定义 msg/srv 接口
   armpy_description/    # URDF/xacro、RViz2 配置、模型显示 launch
-  armpy_sim/            # 键盘控制、mock 执行、joint_states 转换、仿真 launch
+  armpy_sim/            # 键盘控制、仿真执行、joint_states 转换、系统 launch
 ```
 
 | Package | Role |
 | --- | --- |
-| `armpy_interfaces` | 定义 `ArmPose.msg` 和 `ArmPoseRange.srv`，作为控制节点、仿真节点之间的通信协议 |
-| `armpy_description` | 定义机械臂 URDF/xacro 模型、RViz2 显示配置和单独模型显示 launch |
-| `armpy_sim` | 提供键盘控制、mock 机械臂执行节点、目标坐标到 `/joint_states` 的转换节点和一键启动 launch |
+| `armpy_interfaces` | 定义 `ArmPose.msg` 和 `ArmPoseRange.srv`，作为节点间通信协议 |
+| `armpy_description` | 定义机械臂 URDF/xacro 模型、RViz2 显示配置和模型显示入口 |
+| `armpy_sim` | 提供键盘输入节点、仿真执行节点、目标坐标到 `/joint_states` 的转换节点和一键启动入口 |
 
-## 仿真链路
-
-完整节点关系：
+## 系统链路
 
 ```text
 /keyboard_node
@@ -72,8 +49,8 @@ src/
 说明：
 
 - `keyboard_node` 发布目标坐标。
-- `mock_arm_node` 订阅目标坐标，模拟真实机械臂执行节点。
-- `pose_to_joint_states_node` 将目标坐标近似转换为机械臂关节角。
+- `mock_arm_node` 订阅目标坐标，并提供目标范围检查服务。
+- `pose_to_joint_states_node` 将目标坐标近似转换为机械臂关节状态。
 - `robot_state_publisher` 根据 URDF 和 `/joint_states` 发布 TF。
 - RViz2 读取机器人模型和 TF，显示机械臂姿态变化。
 
@@ -86,7 +63,7 @@ src/
 - Python 3.12
 - RViz2
 
-安装常用依赖：
+常用依赖：
 
 ```bash
 sudo apt update
@@ -124,13 +101,13 @@ source install/setup.bash
 ros2 run armpy_sim keyboard_node
 ```
 
-如果明确希望 launch 同时启动键盘节点：
+如果希望 launch 同时启动键盘节点：
 
 ```bash
 ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
 ```
 
-交互式键盘节点更推荐单独终端运行。
+交互式键盘节点更推荐单独终端运行，便于接收键盘输入。
 
 ## 键盘控制
 
@@ -169,30 +146,30 @@ ros2 topic info /joint_states --verbose
 ros2 topic echo /joint_states
 ```
 
-检查运动范围服务：
+检查目标范围服务：
 
 ```bash
 ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y: 80, z: 180}"
 ```
 
-## ROS1 与 ROS2 对比
+## 当前边界
 
-这个项目对应原 ROS1 仿真链路，但开发模式有明显变化：
+当前已经实现：
 
-| Aspect | ROS1 | ROS2 |
-| --- | --- | --- |
-| Master | 需要 `roscore` | 不需要 `roscore`，基于 DDS 自动发现 |
-| Build | `catkin_make` | `colcon build` |
-| Python client | `rospy` | `rclpy` |
-| Launch | XML launch | Python launch |
-| Interface generation | `message_generation` | `rosidl_default_generators` |
-| Visualization | RViz | RViz2 |
+- ROS2 Jazzy 工作空间。
+- 自定义 msg/srv。
+- rclpy topic/service 节点。
+- URDF/xacro 机械臂模型。
+- `/joint_states` 与 `robot_state_publisher` 可视化链路。
+- RViz2 机械臂控制流程可视化验证。
 
-仿真核心概念基本延续：
+当前暂不包含：
 
-```text
-URDF/xacro + /joint_states + robot_state_publisher + TF + RViz2
-```
+- Gazebo 物理仿真。
+- MoveIt2 运动规划。
+- ros2_control 控制器链路。
+- 视觉感知或点云处理。
+- 实体硬件驱动。
 
 ## 代码管理
 
@@ -204,5 +181,4 @@ install/
 log/
 ```
 
-这些目录已由 `.gitignore` 忽略。`.gitattributes` 用于统一 ROS/Python/launch 文件的 LF 换行，避免 Windows 和 Ubuntu 之间同步时出现脚本换行问题。
-
+这些目录已由 `.gitignore` 忽略。`.gitattributes` 用于统一 ROS、Python、launch 文件的 LF 换行，减少跨平台同步时的脚本换行问题。

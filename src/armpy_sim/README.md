@@ -1,8 +1,8 @@
 # armpy_sim
 
-`armpy_sim` 实现无硬件机械臂控制仿真闭环。
+`armpy_sim` 实现机械臂控制流程的无硬件可视化闭环。
 
-这个包回答的问题是：**没有真实机械臂时，如何让 ROS2 控制链路跑起来并在 RViz2 中看到运动。**
+这个包回答的问题是：如何让 ROS2 控制链路跑起来，并在 RViz2 中看到机械臂姿态变化。
 
 ## Nodes
 
@@ -31,18 +31,18 @@ ros2 run armpy_sim keyboard_node
 
 ### mock_arm_node
 
-模拟真实机械臂执行节点：
+提供仿真执行节点和范围检查服务：
 
 ```text
 /arm/pose -> /mock_arm_node
 /mock_arm_node -> /arm/pose/range
 ```
 
-它不会打开串口，也不会控制真实硬件，只打印收到的目标坐标，并提供范围检查服务。
+该节点订阅目标坐标，打印收到的控制目标，并通过服务返回目标是否在允许范围内。
 
 ### pose_to_joint_states_node
 
-将目标坐标近似转换为关节角：
+将目标坐标近似转换为关节状态：
 
 ```text
 /arm/pose -> /pose_to_joint_states_node -> /joint_states
@@ -66,13 +66,13 @@ ros2 launch armpy_sim keyboard_rviz.launch.py
 ros2 run armpy_sim keyboard_node
 ```
 
-一键启动键盘节点、仿真节点和 RViz2：
+也可以一键启动键盘节点、仿真节点和 RViz2：
 
 ```bash
 ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
 ```
 
-交互式键盘节点更推荐单独终端运行。
+交互式键盘节点更推荐单独终端运行，便于稳定接收键盘输入。
 
 ## Graph
 
@@ -97,13 +97,3 @@ ros2 topic info /arm/pose --verbose
 ros2 topic info /joint_states --verbose
 ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y: 80, z: 180}"
 ```
-
-## Boundary
-
-这个包当前不包含：
-
-- 真实串口控制节点。
-- 摄像头和点云输入。
-- Gazebo 物理仿真。
-- MoveIt2 运动规划。
-

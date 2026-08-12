@@ -1,8 +1,8 @@
 # armpy_description
 
-`armpy_description` 定义机械臂本体模型和显示配置。
+`armpy_description` 定义机械臂模型和 RViz2 显示配置。
 
-这个包回答的问题是：**机器人长什么样、关节如何连接、RViz2 如何显示它。**
+这个包回答的问题是：机器人模型由哪些 link 和 joint 组成，RViz2 如何显示它。
 
 ## Contents
 
@@ -22,7 +22,7 @@ launch/display.launch.py
 
 ## Display Only
 
-只显示模型和 TF：
+只显示模型：
 
 ```bash
 cd ~/armpy-ros2-ws
@@ -31,19 +31,11 @@ source install/setup.bash
 ros2 launch armpy_description display.launch.py
 ```
 
-注意：单独运行 `display.launch.py` 时，如果没有节点发布 `/joint_states`，机械臂会保持默认状态或提示缺少关节状态。这是正常的。完整运动仿真请运行：
+单独运行 `display.launch.py` 时，如果没有节点发布 `/joint_states`，机械臂会保持默认状态或提示缺少关节状态。这是正常现象。
+
+完整控制可视化链路请运行：
 
 ```bash
 ros2 launch armpy_sim keyboard_rviz.launch.py
 ```
-
-## Boundary
-
-这个包不负责：
-
-- 键盘控制。
-- mock 执行。
-- 目标坐标到关节角转换。
-- Gazebo 物理仿真。
-- MoveIt2 运动规划。
 
