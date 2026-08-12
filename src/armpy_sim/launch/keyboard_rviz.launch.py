@@ -45,6 +45,12 @@ def generate_launch_description():
             output='screen',
         ),
         Node(
+            package='armpy_sim',
+            executable='scene_marker_node',
+            name='scene_marker_node',
+            output='screen',
+        ),
+        Node(
             condition=IfCondition(start_keyboard),
             package='armpy_sim',
             executable='keyboard_node',

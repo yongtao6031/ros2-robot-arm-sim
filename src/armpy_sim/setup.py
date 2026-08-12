@@ -17,9 +17,9 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='zyt',
-    maintainer_email='2191345799@qq.com',
-    description='No-hardware ROS 2 simulation nodes for the Armpy arm.',
+    maintainer='Project Maintainer',
+    maintainer_email='maintainer@example.com',
+    description='No-hardware ROS 2 simulation nodes for a robotic arm visualization project.',
     license='MIT',
     extras_require={
         'test': [
@@ -31,6 +31,7 @@ setup(
             'keyboard_node = armpy_sim.keyboard_node:main',
             'mock_arm_node = armpy_sim.mock_arm_node:main',
             'pose_to_joint_states_node = armpy_sim.pose_to_joint_states_node:main',
+            'scene_marker_node = armpy_sim.scene_marker_node:main',
         ],
     },
 )

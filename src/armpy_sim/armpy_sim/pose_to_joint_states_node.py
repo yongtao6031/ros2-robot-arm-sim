@@ -59,7 +59,9 @@ class PoseToJointStatesNode(Node):
             self.upper_len + self.forearm_len * math.cos(elbow),
         )
         wrist = -shoulder - elbow
-        return [base_yaw, shoulder, elbow, wrist, 0.0]
+        gripper_phase = self.get_clock().now().nanoseconds / 1.0e9
+        gripper_opening = 0.012 + 0.008 * (0.5 + 0.5 * math.sin(gripper_phase))
+        return [base_yaw, shoulder, elbow, wrist, gripper_opening, gripper_opening]
 
     def publish_joint_states(self):
         msg = JointState()
@@ -69,7 +71,8 @@ class PoseToJointStatesNode(Node):
             'shoulder_joint',
             'elbow_joint',
             'wrist_joint',
-            'gripper_joint',
+            'left_finger_joint',
+            'right_finger_joint',
         ]
         msg.position = self.pose_to_angles()
         self.publisher.publish(msg)

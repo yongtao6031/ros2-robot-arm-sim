@@ -3,10 +3,10 @@
 这是一个基于 **ROS2 Jazzy** 的机械臂控制可视化项目，用于在无实体硬件条件下验证一条最小控制链路：
 
 ```text
-键盘目标输入 -> 仿真执行节点 -> 关节状态发布 -> URDF 机械臂模型 -> RViz2 可视化
+键盘目标输入 -> 仿真执行节点 -> 关节状态发布 -> URDF 机械臂模型 + 场景目标 -> RViz2 可视化
 ```
 
-项目当前聚焦 ROS2 基础开发、节点通信、自定义接口、URDF/xacro 建模、`/joint_states` 发布、TF 发布与 RViz2 可视化验证。它不是物理级仿真项目，暂不包含 Gazebo、MoveIt2、ros2_control 或真实设备控制。
+项目当前聚焦 ROS2 基础开发、节点通信、自定义接口、URDF/xacro 建模、`/joint_states` 发布、TF 发布、RViz2 Marker 场景显示与可视化验证。它不是物理级仿真项目，暂不包含 Gazebo、MoveIt2、ros2_control 或真实设备控制。
 
 ## 运行效果
 
@@ -24,14 +24,14 @@ ROS2 通信图：
 src/
   armpy_interfaces/     # 自定义 msg/srv 接口
   armpy_description/    # URDF/xacro、RViz2 配置、模型显示 launch
-  armpy_sim/            # 键盘控制、仿真执行、joint_states 转换、系统 launch
+  armpy_sim/            # 键盘控制、仿真执行、joint_states 转换、场景 Marker、系统 launch
 ```
 
 | Package | Role |
 | --- | --- |
 | `armpy_interfaces` | 定义 `ArmPose.msg` 和 `ArmPoseRange.srv`，作为节点间通信协议 |
-| `armpy_description` | 定义机械臂 URDF/xacro 模型、RViz2 显示配置和模型显示入口 |
-| `armpy_sim` | 提供键盘输入节点、仿真执行节点、目标坐标到 `/joint_states` 的转换节点和一键启动入口 |
+| `armpy_description` | 定义带简化夹爪的机械臂 URDF/xacro 模型、RViz2 显示配置和模型显示入口 |
+| `armpy_sim` | 提供键盘输入节点、仿真执行节点、目标坐标到 `/joint_states` 的转换节点、场景 Marker 节点和一键启动入口 |
 
 ## 系统链路
 
@@ -44,6 +44,9 @@ src/
              -> /robot_state_publisher
                   -> /tf
                      -> /rviz2
+/scene_marker_node
+  -> /armpy_scene
+     -> /rviz2
 ```
 
 说明：
@@ -52,6 +55,7 @@ src/
 - `mock_arm_node` 订阅目标坐标，并提供目标范围检查服务。
 - `pose_to_joint_states_node` 将目标坐标近似转换为机械臂关节状态。
 - `robot_state_publisher` 根据 URDF 和 `/joint_states` 发布 TF。
+- `scene_marker_node` 发布球和开口盒子的 RViz2 MarkerArray。
 - RViz2 读取机器人模型和 TF，显示机械臂姿态变化。
 
 ## 环境
@@ -152,6 +156,12 @@ ros2 topic echo /joint_states
 ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y: 80, z: 180}"
 ```
 
+检查场景 Marker：
+
+```bash
+ros2 topic info /armpy_scene --verbose
+```
+
 ## 当前边界
 
 当前已经实现：
@@ -161,6 +171,7 @@ ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y:
 - rclpy topic/service 节点。
 - URDF/xacro 机械臂模型。
 - `/joint_states` 与 `robot_state_publisher` 可视化链路。
+- 夹爪模型、球和开口盒子场景 Marker。
 - RViz2 机械臂控制流程可视化验证。
 
 当前暂不包含：

@@ -50,6 +50,16 @@ ros2 run armpy_sim keyboard_node
 
 `robot_state_publisher` 读取 `/joint_states` 后发布 TF，RViz2 根据 TF 显示机械臂姿态。
 
+### scene_marker_node
+
+发布简单任务场景：
+
+```text
+/scene_marker_node -> /armpy_scene
+```
+
+该节点使用 `visualization_msgs/MarkerArray` 发布一个球和一个开口盒子，用于在 RViz2 中表达后续夹取与放置实验的目标环境。
+
 ## Launch
 
 推荐用两个终端运行。
@@ -87,6 +97,9 @@ ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
              -> /robot_state_publisher
                   -> /tf
                      -> /rviz2
+/scene_marker_node
+  -> /armpy_scene
+     -> /rviz2
 ```
 
 ## Checks
@@ -95,5 +108,16 @@ ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
 ros2 node list
 ros2 topic info /arm/pose --verbose
 ros2 topic info /joint_states --verbose
+ros2 topic info /armpy_scene --verbose
 ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y: 80, z: 180}"
 ```
+
+## Boundary
+
+这个包当前不包含：
+
+- 物理级仿真。
+- 运动规划。
+- 控制器链路。
+- 视觉感知或点云处理。
+- 实体硬件驱动。

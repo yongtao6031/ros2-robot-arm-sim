@@ -24,6 +24,14 @@ Visualization Manager:
       Enabled: true
       Name: TF
       Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Marker Topic:
+        Value: /armpy_scene
+      Name: Scene
+      Namespaces:
+        scene: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

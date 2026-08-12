@@ -3,13 +3,14 @@
 <package format="3">
   <name>armpy_sim</name>
   <version>0.0.0</version>
-  <description>No-hardware ROS 2 simulation nodes for the Armpy arm.</description>
-  <maintainer email="2191345799@qq.com">zyt</maintainer>
+  <description>No-hardware ROS 2 simulation nodes for a robotic arm visualization project.</description>
+  <maintainer email="maintainer@example.com">Project Maintainer</maintainer>
   <license>MIT</license>
 
   <depend>rclpy</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
+  <depend>visualization_msgs</depend>
   <depend>armpy_interfaces</depend>
   <exec_depend>armpy_description</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>

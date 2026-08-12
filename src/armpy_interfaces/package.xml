@@ -3,8 +3,8 @@
 <package format="3">
   <name>armpy_interfaces</name>
   <version>0.0.0</version>
-  <description>Custom ROS 2 interfaces for the Armpy arm simulation.</description>
-  <maintainer email="2191345799@qq.com">zyt</maintainer>
+  <description>Custom ROS 2 interfaces for a robotic arm visualization project.</description>
+  <maintainer email="maintainer@example.com">Project Maintainer</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

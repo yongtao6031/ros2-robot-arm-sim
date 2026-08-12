@@ -3,8 +3,8 @@
 <package format="3">
   <name>armpy_description</name>
   <version>0.0.0</version>
-  <description>URDF, RViz, and display launch files for the Armpy arm.</description>
-  <maintainer email="2191345799@qq.com">zyt</maintainer>
+  <description>URDF, RViz2, and display launch files for a robotic arm visualization project.</description>
+  <maintainer email="maintainer@example.com">Project Maintainer</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
