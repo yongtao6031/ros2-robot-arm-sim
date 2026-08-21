@@ -1,4 +1,4 @@
-# AGENTS.md
+# AGENTS.md 
 
 This file provides project-specific guidance for AI coding agents such as Codex, Claude, Cursor, and similar tools.
 
