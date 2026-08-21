@@ -1,6 +1,6 @@
 # 基于 ROS2 的仿真机械臂控制系统
 
-English name: **ROS2 Simulated Robotic Arm Control System**
+ **ROS2 Simulated Robotic Arm Control System**
 
 这是一个基于 **ROS2 Jazzy** 的机械臂控制可视化项目，用于在无实体硬件条件下验证一条最小控制链路：
 
@@ -8,7 +8,7 @@ English name: **ROS2 Simulated Robotic Arm Control System**
 键盘目标输入 -> 仿真执行节点 -> 关节状态发布 -> URDF 机械臂模型 + 场景目标 -> RViz2 可视化
 ```
 
-项目当前聚焦 ROS2 基础开发、节点通信、自定义接口、URDF/xacro 建模、`/joint_states` 发布、TF 发布、RViz2 Marker 场景显示与可视化验证。它不是物理级仿真项目，暂不包含 Gazebo、MoveIt2、ros2_control 或真实设备控制。
+项目当前聚焦 ROS2 基础开发、节点通信、自定义接口、URDF/xacro 建模、`/joint_states` 发布、TF 发布、RViz2 Marker 场景显示与可视化验证。
 
 ## 运行效果
 
@@ -176,22 +176,3 @@ ros2 topic info /armpy_scene --verbose
 - 夹爪模型、球和开口盒子场景 Marker。
 - RViz2 机械臂控制流程可视化验证。
 
-当前暂不包含：
-
-- Gazebo 物理仿真。
-- MoveIt2 运动规划。
-- ros2_control 控制器链路。
-- 视觉感知或点云处理。
-- 实体硬件驱动。
-
-## 代码管理
-
-不要提交 ROS2 编译产物：
-
-```text
-build/
-install/
-log/
-```
-
-这些目录已由 `.gitignore` 忽略。`.gitattributes` 用于统一 ROS、Python、launch 文件的 LF 换行，减少跨平台同步时的脚本换行问题。
