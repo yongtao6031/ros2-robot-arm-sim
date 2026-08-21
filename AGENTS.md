@@ -7,8 +7,7 @@ This file provides project-specific guidance for AI coding agents such as Codex,
 When entering this repository, read these files first:
 
 1. `README.md` - project overview, quick start, package map, and runtime workflow.
-2. `PROJECT_CONTEXT.md` - current stage, active goals, boundaries, and near-term decisions.
-3. Package README files:
+2. Package README files:
    - `src/armpy_interfaces/README.md`
    - `src/armpy_description/README.md`
    - `src/armpy_sim/README.md`
@@ -29,9 +28,9 @@ Current scope:
 
 - Custom ROS2 msg/srv interfaces.
 - rclpy topic/service nodes.
-- URDF/xacro robot description.
+- URDF/xacro robot description with a simple gripper.
 - `/joint_states` and `robot_state_publisher` visualization chain.
-- RViz2-based model and TF visualization.
+- RViz2-based model, TF, and scene marker visualization.
 
 Out of current scope unless explicitly requested:
 
@@ -46,7 +45,7 @@ Out of current scope unless explicitly requested:
 - `src/armpy_interfaces/`: ROS2 interface definitions only. Keep msg/srv definitions stable and update dependent code when changing them.
 - `src/armpy_description/`: robot model, RViz2 config, and display launch files. Do not add control logic here.
 - `src/armpy_sim/`: simulation/control-flow nodes and launch files. Keep node responsibilities small and explicit.
-- `doc/`: screenshots and lightweight documentation images for README usage.
+- `docs/images/`: screenshots and lightweight documentation images for README usage.
 
 ## Modification Principles
 
@@ -83,4 +82,4 @@ If RViz2 or GUI tools are unavailable, at least validate build, package discover
 
 - Do not commit local machine paths, credentials, tokens, SSH keys, private notes, or personal planning context.
 - Do not claim support for physical simulation, motion planning, controllers, perception, or hardware unless the implementation exists in this repository.
-- Treat `PROJECT_CONTEXT.md` as a technical state snapshot, not a personal diary.
+- Keep private or fast-changing project context in local-only notes rather than public repository files.

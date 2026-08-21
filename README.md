@@ -1,5 +1,7 @@
 # 基于 ROS2 的仿真机械臂控制系统
 
+English name: **ROS2 Simulated Robotic Arm Control System**
+
 这是一个基于 **ROS2 Jazzy** 的机械臂控制可视化项目，用于在无实体硬件条件下验证一条最小控制链路：
 
 ```text
@@ -12,11 +14,11 @@
 
 RViz2 机械臂可视化：
 
-![RViz2 机械臂可视化](doc/image-sim.png)
+![RViz2 机械臂可视化](docs/images/image-sim.png)
 
 ROS2 通信图：
 
-![ROS2 通信图](doc/image-rqt-graph.png)
+![ROS2 通信图](docs/images/image-rqt-graph.png)
 
 ## 功能包结构
 

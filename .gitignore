@@ -17,3 +17,5 @@ venv/
 Thumbs.db
 .idea/
 .vscode/
+
+PROJECT_CONTEXT.md
