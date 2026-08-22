@@ -47,7 +47,7 @@ src/
                   -> /tf
                      -> /rviz2
 /scene_marker_node
-  -> /armpy_scene
+  -> /visualization_marker_array
      -> /rviz2
 ```
 
@@ -161,7 +161,7 @@ ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y:
 检查场景 Marker：
 
 ```bash
-ros2 topic info /armpy_scene --verbose
+ros2 topic info /visualization_marker_array --verbose
 ```
 
 ## 当前边界
@@ -175,4 +175,3 @@ ros2 topic info /armpy_scene --verbose
 - `/joint_states` 与 `robot_state_publisher` 可视化链路。
 - 夹爪模型、球和开口盒子场景 Marker。
 - RViz2 机械臂控制流程可视化验证。
-

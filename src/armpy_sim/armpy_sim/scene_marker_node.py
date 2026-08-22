@@ -10,9 +10,11 @@ class SceneMarkerNode(Node):
         qos = QoSProfile(depth=1)
         qos.reliability = ReliabilityPolicy.RELIABLE
         qos.durability = DurabilityPolicy.TRANSIENT_LOCAL
-        self.publisher = self.create_publisher(MarkerArray, '/armpy_scene', qos)
+        self.publisher = self.create_publisher(MarkerArray, '/visualization_marker_array', qos)
         self.timer = self.create_timer(1.0, self.publish_scene)
-        self.get_logger().info('scene_marker_node ready: publishing /armpy_scene')
+        self.get_logger().info(
+            'scene_marker_node ready: publishing /visualization_marker_array'
+        )
 
     @staticmethod
     def make_marker(marker_id, marker_type, position, scale, color):

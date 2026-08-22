@@ -55,7 +55,7 @@ ros2 run armpy_sim keyboard_node
 发布简单任务场景：
 
 ```text
-/scene_marker_node -> /armpy_scene
+/scene_marker_node -> /visualization_marker_array
 ```
 
 该节点使用 `visualization_msgs/MarkerArray` 发布一个球和一个开口盒子，用于在 RViz2 中表达后续夹取与放置实验的目标环境。
@@ -98,7 +98,7 @@ ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
                   -> /tf
                      -> /rviz2
 /scene_marker_node
-  -> /armpy_scene
+  -> /visualization_marker_array
      -> /rviz2
 ```
 
@@ -108,7 +108,7 @@ ros2 launch armpy_sim keyboard_rviz.launch.py start_keyboard:=true
 ros2 node list
 ros2 topic info /arm/pose --verbose
 ros2 topic info /joint_states --verbose
-ros2 topic info /armpy_scene --verbose
+ros2 topic info /visualization_marker_array --verbose
 ros2 service call /arm/pose/range armpy_interfaces/srv/ArmPoseRange "{x: 220, y: 80, z: 180}"
 ```
 
