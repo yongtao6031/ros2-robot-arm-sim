@@ -14,7 +14,7 @@
 
 RViz2 机械臂可视化：
 
-![RViz2 机械臂可视化](docs/images/image-sim.png)
+![RViz2 机械臂可视化](docs/images/image-sim-scene.png)
 
 ROS2 通信图：
 
